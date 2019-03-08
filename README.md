@@ -6,5 +6,5 @@ This is a fundamental package needed to work with RapidMiner Server and RapidMin
 
 These submodules allow seamless interaction with RapidMiner Server/AutoModel from within any Python Environment
 
-	* Submodule to interact with RapidMiner Server
-	* Submodule to build predictive models on RapidMiner AutoModel
+* Submodule to interact with RapidMiner Server
+* Submodule to build predictive models on RapidMiner AutoModel

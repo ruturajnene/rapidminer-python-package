@@ -10,12 +10,12 @@ This module connects to the RapidMiner AutoModel and builds predictive models(Lo
 
 This module connects to the RapidMiner Server using the credentials provided by the user. Once connected it provides a set of utility functions to perform various tasks such as:
 
-	* Installing RapidMiner processes, services to the server
-	* Retrieve RapidMiner processes from the server
-	* Submit jobs to the RapidMiner server
-	* Retrieve a job from the RapidMiner server
-	* Retrieve status of all the Jobs on the RapidMiner Server
-	* Retrieve data from a RapidMiner repository/process
-	* Save data to a RapidMiner repository
-	* Submit a RapidMiner process as a REST service
-	* Retrieve the queues present on the RapidMiner server
+* Installing RapidMiner processes, services to the server
+* Retrieve RapidMiner processes from the server
+* Submit jobs to the RapidMiner server
+* Retrieve a job from the RapidMiner server
+* Retrieve status of all the Jobs on the RapidMiner Server
+* Retrieve data from a RapidMiner repository/process
+* Save data to a RapidMiner repository
+* Submit a RapidMiner process as a REST service
+* Retrieve the queues present on the RapidMiner server
