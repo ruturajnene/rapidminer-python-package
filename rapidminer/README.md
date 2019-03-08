@@ -1,5 +1,20 @@
-# Example Package
+# rapidminer Module
 
-This is a simple example package. You can use
-[Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
-to write your content.
+This module provides the AutoModelClient and RapidMinerClient submodules.
+
+## AutoModelClient Module (Beta Version)
+
+This module connects to the RapidMiner AutoModel and builds predictive models(Logistic Regression, Decision trees, Naive Bayes, Generalized Linear Models) based on the data passed to the autoModel function.
+
+## RapidMinerClient Module
+
+This module connects to the RapidMiner Server using the credentials provided by the user. Once connected it provides a set of utility functions to perform various tasks such as:
+	* Installing RapidMiner processes, services to the server
+	* Retrieve RapidMiner processes from the server
+	* Submit jobs to the RapidMiner server
+	* Retrieve a job from the RapidMiner server
+	* Retrieve status of all the Jobs on the RapidMiner Server
+	* Retrieve data from a RapidMiner repository/process
+	* Save data to a RapidMiner repository
+	* Submit a RapidMiner process as a REST service
+	* Retrieve the queues present on the RapidMiner server
