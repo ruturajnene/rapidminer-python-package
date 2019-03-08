@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exported-process>
+    <mime-type>application/json</mime-type>
+    <output-format>JSON</output-format>
+    <process-entry>/Python/process/pythonSaveData</process-entry>
+    <xslt-entry/>
+    <parameter-mappings>
+        <macro-parameter-mapping>
+            <query-parameter>path</query-parameter>
+            <mandatory>false</mandatory>
+            <macro>path</macro>
+        </macro-parameter-mapping>
+        <macro-parameter-mapping>
+            <query-parameter>sample</query-parameter>
+            <mandatory>false</mandatory>
+            <macro>sample</macro>
+        </macro-parameter-mapping>
+    </parameter-mappings>
+    <properties>
+        <name>service:pythonSaveData</name>
+    </properties>
+    <data-source-input>
+        <name>service:pythonSaveData</name>
+    </data-source-input>
+</exported-process>

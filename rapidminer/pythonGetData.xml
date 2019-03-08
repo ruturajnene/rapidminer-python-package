@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="8.2.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="8.2.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="text:read_document" compatibility="8.1.000" expanded="true" height="68" name="Read Document" width="90" x="45" y="85">
+        <parameter key="extract_text_only" value="true"/>
+        <parameter key="use_file_extension_as_type" value="true"/>
+        <parameter key="content_type" value="txt"/>
+        <parameter key="encoding" value="SYSTEM"/>
+      </operator>
+      <operator activated="true" class="text:json_to_data" compatibility="8.1.000" expanded="true" height="82" name="JSON To Data" width="90" x="112" y="238">
+        <parameter key="ignore_arrays" value="false"/>
+        <parameter key="limit_attributes" value="false"/>
+        <parameter key="skip_invalid_documents" value="false"/>
+        <parameter key="guess_data_types" value="false"/>
+        <parameter key="keep_missing_attributes" value="false"/>
+        <parameter key="missing_values_aliases" value=", null, NaN, missing"/>
+      </operator>
+      <operator activated="true" class="extract_macro" compatibility="8.2.001" expanded="true" height="68" name="Extract Macro" width="90" x="313" y="238">
+        <parameter key="macro" value="path"/>
+        <parameter key="macro_type" value="data_value"/>
+        <parameter key="statistics" value="average"/>
+        <parameter key="attribute_name" value="path"/>
+        <parameter key="example_index" value="1"/>
+        <list key="additional_macros">
+          <parameter key="type" value="type"/>
+        </list>
+      </operator>
+      <operator activated="true" class="select_subprocess" compatibility="8.2.001" expanded="true" height="166" name="Select Subprocess" width="90" x="581" y="187">
+        <parameter key="select_which" value="%{type}"/>
+        <process expanded="true">
+          <operator activated="true" class="productivity:execute_process" compatibility="8.2.001" expanded="true" height="166" name="Execute Process" width="90" x="246" y="34">
+            <parameter key="process_location" value="%{path}"/>
+            <parameter key="use_input" value="true"/>
+            <parameter key="store_output" value="false"/>
+            <parameter key="propagate_metadata_recursively" value="true"/>
+            <parameter key="cache_process" value="false"/>
+            <list key="macros"/>
+            <parameter key="fail_for_unknown_macros" value="false"/>
+          </operator>
+          <connect from_op="Execute Process" from_port="result 1" to_port="output 1"/>
+          <connect from_op="Execute Process" from_port="result 2" to_port="output 2"/>
+          <connect from_op="Execute Process" from_port="result 3" to_port="output 3"/>
+          <connect from_op="Execute Process" from_port="result 4" to_port="output 4"/>
+          <connect from_op="Execute Process" from_port="result 5" to_port="output 5"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <portSpacing port="sink_output 5" spacing="0"/>
+          <portSpacing port="sink_output 6" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="retrieve" compatibility="8.2.001" expanded="true" height="68" name="Retrieve" width="90" x="112" y="85">
+            <parameter key="repository_entry" value="%{path}"/>
+          </operator>
+          <connect from_op="Retrieve" from_port="output" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <portSpacing port="sink_output 5" spacing="0"/>
+          <portSpacing port="sink_output 6" spacing="0"/>
+        </process>
+      </operator>
+      <connect from_port="input 1" to_op="Read Document" to_port="file"/>
+      <connect from_op="Read Document" from_port="output" to_op="JSON To Data" to_port="documents 1"/>
+      <connect from_op="JSON To Data" from_port="example set" to_op="Extract Macro" to_port="example set"/>
+      <connect from_op="Extract Macro" from_port="example set" to_op="Select Subprocess" to_port="input 1"/>
+      <connect from_op="Select Subprocess" from_port="output 1" to_port="result 1"/>
+      <connect from_op="Select Subprocess" from_port="output 2" to_port="result 2"/>
+      <connect from_op="Select Subprocess" from_port="output 3" to_port="result 3"/>
+      <connect from_op="Select Subprocess" from_port="output 4" to_port="result 4"/>
+      <connect from_op="Select Subprocess" from_port="output 5" to_port="result 5"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="source_input 2" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <portSpacing port="sink_result 5" spacing="0"/>
+      <portSpacing port="sink_result 6" spacing="0"/>
+    </process>
+  </operator>
+</process>

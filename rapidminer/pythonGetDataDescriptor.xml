@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exported-process>
+    <mime-type>application/json</mime-type>
+    <output-format>JSON</output-format>
+    <process-entry>/Python/process/pythonGetData</process-entry>
+    <xslt-entry/>
+    <parameter-mappings/>
+    <properties>
+        <name>service:pythonGetData</name>
+    </properties>
+    <data-source-input>
+        <name>service:pythonGetData</name>
+    </data-source-input>
+</exported-process>

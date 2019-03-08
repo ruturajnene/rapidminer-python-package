@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="8.2.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" automodel="EXPORTED" class="process" compatibility="8.2.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="8.2.001" expanded="true" height="68" name="Retrieve" width="90" x="45" y="238">
+        <parameter key="repository_entry" value="/Python/Data/%{guid}/%{guid}"/>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="subprocess" compatibility="8.2.001" expanded="true" height="82" name="Preprocessing" width="90" x="179" y="238">
+        <process expanded="true">
+          <operator activated="true" automodel="EXPORTED" class="select_subprocess" compatibility="8.2.001" expanded="true" height="82" name="Define Target?" width="90" x="45" y="34">
+            <parameter key="select_which" value="2"/>
+            <process expanded="true">
+              <connect from_port="input 1" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="set_role" compatibility="8.2.001" expanded="true" height="82" name="Define Target" width="90" x="45" y="34">
+                <parameter key="attribute_name" value="%{label}"/>
+                <parameter key="target_role" value="label"/>
+                <list key="set_additional_roles"/>
+                <description align="center" color="transparent" colored="false" width="126">Define the target column for the predictive model.</description>
+              </operator>
+              <connect from_port="input 1" to_op="Define Target" to_port="example set input"/>
+              <connect from_op="Define Target" from_port="example set output" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Should define a target column?</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="select_subprocess" compatibility="8.2.001" expanded="true" height="82" name="Should Discretize?" width="90" x="179" y="34">
+            <parameter key="select_which" value="1"/>
+            <process expanded="true">
+              <connect from_port="input 1" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="discretize_by_bins" compatibility="8.2.001" expanded="true" height="103" name="Binning" width="90" x="45" y="34">
+                <parameter key="return_preprocessing_model" value="false"/>
+                <parameter key="create_view" value="false"/>
+                <parameter key="attribute_filter_type" value="single"/>
+                <parameter key="attribute" value="Age"/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="numeric"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="real"/>
+                <parameter key="block_type" value="value_series"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_series_end"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <parameter key="number_of_bins" value="2"/>
+                <parameter key="define_boundaries" value="false"/>
+                <parameter key="range_name_type" value="short"/>
+                <parameter key="automatic_number_of_digits" value="true"/>
+                <parameter key="number_of_digits" value="3"/>
+                <description align="center" color="transparent" colored="false" width="126">Discretize by binning (same range per bin).</description>
+              </operator>
+              <connect from_port="input 1" to_op="Binning" to_port="example set input"/>
+              <connect from_op="Binning" from_port="example set output" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="discretize_by_frequency" compatibility="8.2.001" expanded="true" height="103" name="Frequency" width="90" x="45" y="34">
+                <parameter key="return_preprocessing_model" value="false"/>
+                <parameter key="create_view" value="false"/>
+                <parameter key="attribute_filter_type" value="single"/>
+                <parameter key="attribute" value="Age"/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="numeric"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="real"/>
+                <parameter key="block_type" value="value_series"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_series_end"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <parameter key="use_sqrt_of_examples" value="false"/>
+                <parameter key="number_of_bins" value="2"/>
+                <parameter key="range_name_type" value="short"/>
+                <parameter key="automatic_number_of_digits" value="true"/>
+                <parameter key="number_of_digits" value="-1"/>
+                <description align="center" color="transparent" colored="false" width="126">Discretize by frequency (same count per bin).</description>
+              </operator>
+              <connect from_port="input 1" to_op="Frequency" to_port="example set input"/>
+              <connect from_op="Frequency" from_port="example set output" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Should discretize numerical target column?</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="select_subprocess" compatibility="8.2.001" expanded="true" height="82" name="Map Values?" width="90" x="313" y="34">
+            <parameter key="select_which" value="1"/>
+            <process expanded="true">
+              <connect from_port="input 1" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="map" compatibility="8.2.001" expanded="true" height="82" name="Map Values" width="90" x="45" y="34">
+                <parameter key="attribute_filter_type" value="single"/>
+                <parameter key="attribute" value="Survived"/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="attribute_value"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="time"/>
+                <parameter key="block_type" value="attribute_block"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_matrix_row_start"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <list key="value_mappings"/>
+                <parameter key="consider_regular_expressions" value="false"/>
+                <parameter key="add_default_mapping" value="false"/>
+                <description align="center" color="transparent" colored="false" width="126">Map some nominal target values to new values.</description>
+              </operator>
+              <connect from_port="input 1" to_op="Map Values" to_port="example set input"/>
+              <connect from_op="Map Values" from_port="example set output" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Should map nominal values?</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="select_subprocess" compatibility="8.2.001" expanded="true" height="82" name="Positive Class?" width="90" x="447" y="34">
+            <parameter key="select_which" value="1"/>
+            <process expanded="true">
+              <connect from_port="input 1" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="nominal_to_binominal" compatibility="8.2.001" expanded="true" height="103" name="Nominal to Binominal" width="90" x="45" y="34">
+                <parameter key="return_preprocessing_model" value="false"/>
+                <parameter key="create_view" value="false"/>
+                <parameter key="attribute_filter_type" value="single"/>
+                <parameter key="attribute" value="Survived"/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="nominal"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="file_path"/>
+                <parameter key="block_type" value="single_value"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="single_value"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <parameter key="transform_binominal" value="false"/>
+                <parameter key="use_underscore_in_name" value="false"/>
+                <description align="center" color="transparent" colored="false" width="126">Make sure that target is binary for positive class mapping.</description>
+              </operator>
+              <operator activated="true" automodel="EXPORTED" class="remap_binominals" compatibility="8.2.001" expanded="true" height="82" name="Define Positive Class" width="90" x="179" y="34">
+                <parameter key="attribute_filter_type" value="single"/>
+                <parameter key="attribute" value="Survived"/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="binominal"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="binominal"/>
+                <parameter key="block_type" value="value_matrix_start"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_matrix_start"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <parameter key="negative_value" value="No"/>
+                <parameter key="positive_value" value="Yes"/>
+                <description align="center" color="transparent" colored="false" width="126">Potentially define which one should be the positive class.</description>
+              </operator>
+              <connect from_port="input 1" to_op="Nominal to Binominal" to_port="example set input"/>
+              <connect from_op="Nominal to Binominal" from_port="example set output" to_op="Define Positive Class" to_port="example set input"/>
+              <connect from_op="Define Positive Class" from_port="example set output" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Should define positive class?</description>
+          </operator>
+          <operator activated="false" automodel="EXPORTED" class="select_subprocess" compatibility="8.2.001" expanded="true" height="82" name="Remove Columns?" width="90" x="581" y="340">
+            <parameter key="select_which" value="2"/>
+            <process expanded="true">
+              <connect from_port="input 1" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="select_attributes" compatibility="8.2.001" expanded="true" height="82" name="Remove Columns" width="90" x="45" y="34">
+                <parameter key="attribute_filter_type" value="regular_expression"/>
+                <parameter key="attribute" value=""/>
+                <parameter key="attributes" value=""/>
+                <parameter key="regular_expression" value="\Qid\E"/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="attribute_value"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="time"/>
+                <parameter key="block_type" value="attribute_block"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_matrix_row_start"/>
+                <parameter key="invert_selection" value="true"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <description align="center" color="transparent" colored="false" width="126">Potentially remove columns.</description>
+              </operator>
+              <connect from_port="input 1" to_op="Remove Columns" to_port="example set input"/>
+              <connect from_op="Remove Columns" from_port="example set output" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Should remove columns?</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="subprocess" compatibility="8.2.001" expanded="true" height="82" name="Unify Value Types" width="90" x="715" y="34">
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="select_attributes" compatibility="8.2.001" expanded="true" height="82" name="Remove Dates" width="90" x="45" y="34">
+                <parameter key="attribute_filter_type" value="value_type"/>
+                <parameter key="attribute" value=""/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="date_time"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="time"/>
+                <parameter key="block_type" value="attribute_block"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_matrix_row_start"/>
+                <parameter key="invert_selection" value="true"/>
+                <parameter key="include_special_attributes" value="false"/>
+                <description align="center" color="transparent" colored="false" width="126">Remove all date columns.</description>
+              </operator>
+              <operator activated="true" automodel="EXPORTED" class="nominal_to_text" compatibility="8.2.001" expanded="true" height="82" name="Nominal to Text" width="90" x="179" y="34">
+                <parameter key="attribute_filter_type" value="value_type"/>
+                <parameter key="attribute" value=""/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="nominal"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="file_path"/>
+                <parameter key="block_type" value="single_value"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="single_value"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <description align="center" color="transparent" colored="false" width="126">Transform all nominal columns to text so that we make sure that all will have polynominal type after the next transformation.</description>
+              </operator>
+              <operator activated="true" automodel="EXPORTED" class="text_to_nominal" compatibility="8.2.001" expanded="true" height="82" name="Text to Nominal" width="90" x="313" y="34">
+                <parameter key="attribute_filter_type" value="value_type"/>
+                <parameter key="attribute" value=""/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="text"/>
+                <parameter key="use_value_type_exception" value="false"/>
+                <parameter key="except_value_type" value="text"/>
+                <parameter key="block_type" value="value_matrix"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_matrix_row_start"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <description align="center" color="transparent" colored="false" width="126">Transform all text columns into polynominal columns.</description>
+              </operator>
+              <operator activated="true" automodel="EXPORTED" class="numerical_to_real" compatibility="8.2.001" expanded="true" height="82" name="Numerical to Real" width="90" x="447" y="34">
+                <parameter key="attribute_filter_type" value="value_type"/>
+                <parameter key="attribute" value=""/>
+                <parameter key="attributes" value=""/>
+                <parameter key="use_except_expression" value="false"/>
+                <parameter key="value_type" value="numeric"/>
+                <parameter key="use_value_type_exception" value="true"/>
+                <parameter key="except_value_type" value="integer"/>
+                <parameter key="block_type" value="value_series"/>
+                <parameter key="use_block_type_exception" value="false"/>
+                <parameter key="except_block_type" value="value_series_end"/>
+                <parameter key="invert_selection" value="false"/>
+                <parameter key="include_special_attributes" value="true"/>
+                <description align="center" color="transparent" colored="false" width="126">Turn all numerical columns (not integers though) into real columns.</description>
+              </operator>
+              <connect from_port="in 1" to_op="Remove Dates" to_port="example set input"/>
+              <connect from_op="Remove Dates" from_port="example set output" to_op="Nominal to Text" to_port="example set input"/>
+              <connect from_op="Nominal to Text" from_port="example set output" to_op="Text to Nominal" to_port="example set input"/>
+              <connect from_op="Text to Nominal" from_port="example set output" to_op="Numerical to Real" to_port="example set input"/>
+              <connect from_op="Numerical to Real" from_port="example set output" to_port="out 1"/>
+              <portSpacing port="source_in 1" spacing="0"/>
+              <portSpacing port="source_in 2" spacing="0"/>
+              <portSpacing port="sink_out 1" spacing="0"/>
+              <portSpacing port="sink_out 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Unify all value types</description>
+          </operator>
+          <connect from_port="in 1" to_op="Define Target?" to_port="input 1"/>
+          <connect from_op="Define Target?" from_port="output 1" to_op="Should Discretize?" to_port="input 1"/>
+          <connect from_op="Should Discretize?" from_port="output 1" to_op="Map Values?" to_port="input 1"/>
+          <connect from_op="Map Values?" from_port="output 1" to_op="Positive Class?" to_port="input 1"/>
+          <connect from_op="Positive Class?" from_port="output 1" to_op="Unify Value Types" to_port="in 1"/>
+          <connect from_op="Unify Value Types" from_port="out 1" to_port="out 1"/>
+          <portSpacing port="source_in 1" spacing="0"/>
+          <portSpacing port="source_in 2" spacing="0"/>
+          <portSpacing port="sink_out 1" spacing="0"/>
+          <portSpacing port="sink_out 2" spacing="0"/>
+        </process>
+        <description align="center" color="transparent" colored="false" width="126">All general preprocessing steps happen inside this operator - double click on it to see the details.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="subprocess" compatibility="8.2.001" expanded="true" height="82" name="Replace Missing Values" width="90" x="313" y="238">
+        <process expanded="true">
+          <operator activated="true" automodel="EXPORTED" class="generate_attributes" compatibility="8.2.001" expanded="true" height="82" name="Generate Dummy" width="90" x="45" y="34">
+            <list key="function_descriptions">
+              <parameter key="DUMMY_NOMINAL_ATTRIBUTE_TO_DELETE" value="&quot;dummy&quot;"/>
+            </list>
+            <parameter key="keep_all" value="true"/>
+            <description align="center" color="transparent" colored="false" width="126">Add a dummy nominal attribute to make sure that the loop will always deliver a result.</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="concurrency:loop_attributes" compatibility="8.2.000" expanded="true" height="82" name="Loop Nominal Attributes" width="90" x="179" y="34">
+            <parameter key="attribute_filter_type" value="value_type"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="nominal"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="time"/>
+            <parameter key="block_type" value="attribute_block"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_matrix_row_start"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <parameter key="attribute_name_macro" value="nominal_attribute"/>
+            <parameter key="reuse_results" value="true"/>
+            <parameter key="enable_parallel_execution" value="true"/>
+            <process expanded="true">
+              <operator activated="true" automodel="EXPORTED" class="extract_macro" compatibility="8.2.001" expanded="true" height="68" name="Calculate No of Missings" width="90" x="45" y="34">
+                <parameter key="macro" value="no_missings"/>
+                <parameter key="macro_type" value="statistics"/>
+                <parameter key="statistics" value="unknown"/>
+                <parameter key="attribute_name" value="%{nominal_attribute}"/>
+                <list key="additional_macros"/>
+                <description align="center" color="transparent" colored="false" width="126">Calculate the number of missing values for this nominal attribute.</description>
+              </operator>
+              <operator activated="true" automodel="EXPORTED" class="branch" compatibility="8.2.001" expanded="true" height="103" name="Branch" width="90" x="179" y="34">
+                <parameter key="condition_type" value="expression"/>
+                <parameter key="expression" value="eval(%{no_missings})==0"/>
+                <parameter key="io_object" value="ANOVAMatrix"/>
+                <parameter key="return_inner_output" value="true"/>
+                <process expanded="true">
+                  <connect from_port="input 1" to_port="input 1"/>
+                  <portSpacing port="source_condition" spacing="0"/>
+                  <portSpacing port="source_input 1" spacing="0"/>
+                  <portSpacing port="source_input 2" spacing="0"/>
+                  <portSpacing port="sink_input 1" spacing="0"/>
+                  <portSpacing port="sink_input 2" spacing="0"/>
+                </process>
+                <process expanded="true">
+                  <operator activated="true" automodel="EXPORTED" class="replace_missing_values" compatibility="8.2.001" expanded="true" height="103" name="Replace Nominal Missings" width="90" x="112" y="34">
+                    <parameter key="return_preprocessing_model" value="false"/>
+                    <parameter key="create_view" value="false"/>
+                    <parameter key="attribute_filter_type" value="single"/>
+                    <parameter key="attribute" value="%{nominal_attribute}"/>
+                    <parameter key="attributes" value=""/>
+                    <parameter key="use_except_expression" value="false"/>
+                    <parameter key="value_type" value="nominal"/>
+                    <parameter key="use_value_type_exception" value="false"/>
+                    <parameter key="except_value_type" value="time"/>
+                    <parameter key="block_type" value="attribute_block"/>
+                    <parameter key="use_block_type_exception" value="false"/>
+                    <parameter key="except_block_type" value="value_matrix_row_start"/>
+                    <parameter key="invert_selection" value="false"/>
+                    <parameter key="include_special_attributes" value="false"/>
+                    <parameter key="default" value="value"/>
+                    <list key="columns"/>
+                    <parameter key="replenishment_value" value="MISSING"/>
+                    <description align="center" color="transparent" colored="false" width="126">Replace nominal missings with the word 'missing'.</description>
+                  </operator>
+                  <connect from_port="input 1" to_op="Replace Nominal Missings" to_port="example set input"/>
+                  <connect from_op="Replace Nominal Missings" from_port="example set output" to_port="input 1"/>
+                  <portSpacing port="source_condition" spacing="0"/>
+                  <portSpacing port="source_input 1" spacing="0"/>
+                  <portSpacing port="source_input 2" spacing="0"/>
+                  <portSpacing port="sink_input 1" spacing="0"/>
+                  <portSpacing port="sink_input 2" spacing="0"/>
+                </process>
+                <description align="center" color="transparent" colored="false" width="126">Only replace missings if there are actually any missings.</description>
+              </operator>
+              <connect from_port="input 1" to_op="Calculate No of Missings" to_port="example set"/>
+              <connect from_op="Calculate No of Missings" from_port="example set" to_op="Branch" to_port="input 1"/>
+              <connect from_op="Branch" from_port="input 1" to_port="output 1"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+              <portSpacing port="sink_output 2" spacing="0"/>
+            </process>
+            <description align="center" color="transparent" colored="false" width="126">Loop over all nominal attributes.</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="select_attributes" compatibility="8.2.001" expanded="true" height="82" name="Remove Dummy" width="90" x="313" y="34">
+            <parameter key="attribute_filter_type" value="single"/>
+            <parameter key="attribute" value="DUMMY_NOMINAL_ATTRIBUTE_TO_DELETE"/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="attribute_value"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="time"/>
+            <parameter key="block_type" value="attribute_block"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_matrix_row_start"/>
+            <parameter key="invert_selection" value="true"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <description align="center" color="transparent" colored="false" width="126">Remove dummy attribute again.</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="replace_infinite_values" compatibility="8.2.001" expanded="true" height="103" name="Replace Pos Infinite Values" width="90" x="447" y="34">
+            <parameter key="return_preprocessing_model" value="false"/>
+            <parameter key="create_view" value="false"/>
+            <parameter key="attribute_filter_type" value="value_type"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="numeric"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="real"/>
+            <parameter key="block_type" value="value_series"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_series_end"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="true"/>
+            <parameter key="default" value="missing"/>
+            <list key="columns"/>
+            <parameter key="replenish_what" value="positive_infinity"/>
+            <description align="center" color="transparent" colored="false" width="126">Replace positive infinity values by missing.</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="replace_infinite_values" compatibility="8.2.001" expanded="true" height="103" name="Replace Neg Infinite Values" width="90" x="581" y="34">
+            <parameter key="return_preprocessing_model" value="false"/>
+            <parameter key="create_view" value="false"/>
+            <parameter key="attribute_filter_type" value="value_type"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="numeric"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="real"/>
+            <parameter key="block_type" value="value_series"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_series_end"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="true"/>
+            <parameter key="default" value="missing"/>
+            <list key="columns"/>
+            <parameter key="replenish_what" value="negative_infinity"/>
+            <description align="center" color="transparent" colored="false" width="126">Replace negative infinity values by missing.</description>
+          </operator>
+          <operator activated="true" automodel="EXPORTED" class="replace_missing_values" compatibility="8.2.001" expanded="true" height="103" name="Replace Numerical Missings" width="90" x="715" y="34">
+            <parameter key="return_preprocessing_model" value="false"/>
+            <parameter key="create_view" value="false"/>
+            <parameter key="attribute_filter_type" value="value_type"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="numeric"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="time"/>
+            <parameter key="block_type" value="attribute_block"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_matrix_row_start"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <parameter key="default" value="average"/>
+            <list key="columns"/>
+            <description align="center" color="transparent" colored="false" width="126">Replace numerical missings with the average of the column.</description>
+          </operator>
+          <connect from_port="in 1" to_op="Generate Dummy" to_port="example set input"/>
+          <connect from_op="Generate Dummy" from_port="example set output" to_op="Loop Nominal Attributes" to_port="input 1"/>
+          <connect from_op="Loop Nominal Attributes" from_port="output 1" to_op="Remove Dummy" to_port="example set input"/>
+          <connect from_op="Remove Dummy" from_port="example set output" to_op="Replace Pos Infinite Values" to_port="example set input"/>
+          <connect from_op="Replace Pos Infinite Values" from_port="example set output" to_op="Replace Neg Infinite Values" to_port="example set input"/>
+          <connect from_op="Replace Neg Infinite Values" from_port="example set output" to_op="Replace Numerical Missings" to_port="example set input"/>
+          <connect from_op="Replace Numerical Missings" from_port="example set output" to_port="out 1"/>
+          <portSpacing port="source_in 1" spacing="0"/>
+          <portSpacing port="source_in 2" spacing="0"/>
+          <portSpacing port="sink_out 1" spacing="0"/>
+          <portSpacing port="sink_out 2" spacing="0"/>
+        </process>
+        <description align="center" color="transparent" colored="false" width="126">Replace missing values.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="order_attributes" compatibility="8.2.001" expanded="true" height="82" name="Reorder Attributes" width="90" x="447" y="238">
+        <parameter key="sort_mode" value="alphabetically"/>
+        <parameter key="attribute_ordering" value=""/>
+        <parameter key="use_regular_expressions" value="false"/>
+        <parameter key="handle_unmatched" value="append"/>
+        <parameter key="sort_direction" value="ascending"/>
+        <description align="center" color="transparent" colored="false" width="126">Order columns alphabetically.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="filter_examples" compatibility="8.2.001" expanded="true" height="103" name="Filter Examples" width="90" x="581" y="238">
+        <parameter key="parameter_expression" value=""/>
+        <parameter key="condition_class" value="no_missing_labels"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list"/>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+        <description align="center" color="transparent" colored="false" width="126">Model on cases with label value, apply the model on cases with a missing for the target column.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="split_data" compatibility="8.2.001" expanded="true" height="103" name="Split Data" width="90" x="715" y="34">
+        <enumeration key="partitions">
+          <parameter key="ratio" value="0.8"/>
+          <parameter key="ratio" value="0.2"/>
+        </enumeration>
+        <parameter key="sampling_type" value="automatic"/>
+        <parameter key="use_local_random_seed" value="true"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <description align="center" color="transparent" colored="false" width="126">Split of a validation set.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="multiply" compatibility="8.2.001" expanded="true" height="124" name="Multiply Training" width="90" x="916" y="34">
+        <description align="center" color="transparent" colored="false" width="126">Copy training data.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="naive_bayes" compatibility="8.2.001" expanded="true" height="82" name="Naive Bayes" width="90" x="1117" y="34">
+        <parameter key="laplace_correction" value="true"/>
+        <description align="center" color="transparent" colored="false" width="126">Train model.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="multiply" compatibility="8.2.001" expanded="true" height="103" name="Multiply Validation" width="90" x="1117" y="238">
+        <description align="center" color="transparent" colored="false" width="126">Copy validation data.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="model_simulator:model_simulator" compatibility="8.2.001" expanded="true" height="103" name="Model Simulator" width="90" x="1251" y="34">
+        <description align="center" color="transparent" colored="false" width="126">Create model simulator.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Model Simulator" width="90" x="1519" y="34">
+        <parameter key="repository_entry" value="model_simulator"/>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="multiply" compatibility="8.2.001" expanded="true" height="124" name="Multiply Model" width="90" x="1385" y="85">
+        <description align="center" color="transparent" colored="false" width="126">Copy model.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="apply_model" compatibility="8.2.001" expanded="true" height="82" name="Apply Model" width="90" x="1452" y="238">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+        <description align="center" color="transparent" colored="false" width="126">Apply model on validation set.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Label" width="90" x="1787" y="85">
+        <parameter key="repository_entry" value="model_Labelled_data"/>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="performance_classification" compatibility="8.2.001" expanded="true" height="82" name="Performance" width="90" x="1921" y="85">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="accuracy" value="true"/>
+        <parameter key="classification_error" value="true"/>
+        <parameter key="kappa" value="false"/>
+        <parameter key="weighted_mean_recall" value="false"/>
+        <parameter key="weighted_mean_precision" value="false"/>
+        <parameter key="spearman_rho" value="false"/>
+        <parameter key="kendall_tau" value="false"/>
+        <parameter key="absolute_error" value="false"/>
+        <parameter key="relative_error" value="false"/>
+        <parameter key="relative_error_lenient" value="false"/>
+        <parameter key="relative_error_strict" value="false"/>
+        <parameter key="normalized_absolute_error" value="false"/>
+        <parameter key="root_mean_squared_error" value="false"/>
+        <parameter key="root_relative_squared_error" value="false"/>
+        <parameter key="squared_error" value="false"/>
+        <parameter key="correlation" value="false"/>
+        <parameter key="squared_correlation" value="false"/>
+        <parameter key="cross-entropy" value="false"/>
+        <parameter key="margin" value="false"/>
+        <parameter key="soft_margin_loss" value="false"/>
+        <parameter key="logistic_loss" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+        <list key="class_weights"/>
+        <description align="center" color="transparent" colored="false" width="126">Performance on validation set.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Performance" width="90" x="2055" y="85">
+        <parameter key="repository_entry" value="performance"/>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="model_simulator:explain_predictions" compatibility="8.2.001" expanded="true" height="103" name="Explain Predictions" width="90" x="1720" y="391">
+        <parameter key="maximal explaining attributes" value="3"/>
+        <parameter key="local sample size" value="500"/>
+        <description align="center" color="transparent" colored="false" width="126">Create predictions for cases without value and add explanations for predictions.</description>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Model" width="90" x="1921" y="187">
+        <parameter key="repository_entry" value="model"/>
+      </operator>
+      <operator activated="true" automodel="EXPORTED" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Model (2)" width="90" x="1854" y="289">
+        <parameter key="repository_entry" value="explain_predictions"/>
+      </operator>
+      <connect from_op="Retrieve" from_port="output" to_op="Preprocessing" to_port="in 1"/>
+      <connect from_op="Preprocessing" from_port="out 1" to_op="Replace Missing Values" to_port="in 1"/>
+      <connect from_op="Replace Missing Values" from_port="out 1" to_op="Reorder Attributes" to_port="example set input"/>
+      <connect from_op="Reorder Attributes" from_port="example set output" to_op="Filter Examples" to_port="example set input"/>
+      <connect from_op="Filter Examples" from_port="example set output" to_op="Split Data" to_port="example set"/>
+      <connect from_op="Filter Examples" from_port="unmatched example set" to_op="Explain Predictions" to_port="test data"/>
+      <connect from_op="Split Data" from_port="partition 1" to_op="Multiply Training" to_port="input"/>
+      <connect from_op="Split Data" from_port="partition 2" to_op="Multiply Validation" to_port="input"/>
+      <connect from_op="Multiply Training" from_port="output 1" to_op="Naive Bayes" to_port="training set"/>
+      <connect from_op="Multiply Training" from_port="output 2" to_op="Model Simulator" to_port="training data"/>
+      <connect from_op="Multiply Training" from_port="output 3" to_op="Explain Predictions" to_port="training data"/>
+      <connect from_op="Naive Bayes" from_port="model" to_op="Model Simulator" to_port="model"/>
+      <connect from_op="Multiply Validation" from_port="output 1" to_op="Model Simulator" to_port="test data"/>
+      <connect from_op="Multiply Validation" from_port="output 2" to_op="Apply Model" to_port="unlabelled data"/>
+      <connect from_op="Model Simulator" from_port="simulator output" to_op="Store Model Simulator" to_port="input"/>
+      <connect from_op="Model Simulator" from_port="model output" to_op="Multiply Model" to_port="input"/>
+      <connect from_op="Store Model Simulator" from_port="through" to_port="result 1"/>
+      <connect from_op="Multiply Model" from_port="output 1" to_op="Store Model" to_port="input"/>
+      <connect from_op="Multiply Model" from_port="output 2" to_op="Explain Predictions" to_port="model"/>
+      <connect from_op="Multiply Model" from_port="output 3" to_op="Apply Model" to_port="model"/>
+      <connect from_op="Apply Model" from_port="labelled data" to_op="Store Label" to_port="input"/>
+      <connect from_op="Store Label" from_port="through" to_op="Performance" to_port="labelled data"/>
+      <connect from_op="Performance" from_port="performance" to_op="Store Performance" to_port="input"/>
+      <connect from_op="Store Performance" from_port="through" to_port="result 2"/>
+      <connect from_op="Explain Predictions" from_port="visualization output" to_op="Store Model (2)" to_port="input"/>
+      <connect from_op="Explain Predictions" from_port="example set output" to_port="result 5"/>
+      <connect from_op="Store Model" from_port="through" to_port="result 3"/>
+      <connect from_op="Store Model (2)" from_port="through" to_port="result 4"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="63"/>
+      <portSpacing port="sink_result 4" spacing="84"/>
+      <portSpacing port="sink_result 5" spacing="0"/>
+      <portSpacing port="sink_result 6" spacing="0"/>
+      <description align="left" color="yellow" colored="false" height="130" resized="true" width="477" x="714" y="410">Results:&lt;br&gt;1. Model simulator&lt;br&gt;2. Performance from validation set (split off before model building)&lt;br&gt;3. Model&lt;br&gt;4. Predicted data with explanation viz (only if the data had missing labels)&lt;br&gt;5. Predicted data with explanation table (only if the data had missing labels)</description>
+    </process>
+  </operator>
+</process>

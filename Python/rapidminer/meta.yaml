@@ -1,0 +1,22 @@
+package:
+  name: rapidminer
+  version: "0.0.1"
+
+source:
+  path: ../../rapidminer
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+
+test:
+  imports:
+    - AutoModel
+
+about:
+  home: 
+  license: MIT
+  license_file: LICENSE

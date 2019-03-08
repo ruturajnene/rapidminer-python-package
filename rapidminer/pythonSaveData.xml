@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="8.2.001">
+  <context>
+    <input/>
+    <output/>
+    <macros>
+      <macro>
+        <key>path</key>
+        <value>path</value>
+      </macro>
+    </macros>
+  </context>
+  <operator activated="true" class="process" compatibility="8.2.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="text:read_document" compatibility="8.1.000" expanded="true" height="68" name="Read Document" width="90" x="112" y="85">
+        <parameter key="extract_text_only" value="true"/>
+        <parameter key="use_file_extension_as_type" value="true"/>
+        <parameter key="content_type" value="txt"/>
+        <parameter key="encoding" value="SYSTEM"/>
+      </operator>
+      <operator activated="true" class="text:cut_document" compatibility="8.1.000" expanded="true" height="68" name="Cut Document" width="90" x="246" y="34">
+        <parameter key="query_type" value="JsonPath"/>
+        <list key="string_machting_queries"/>
+        <parameter key="attribute_type" value="Nominal"/>
+        <list key="regular_expression_queries"/>
+        <list key="regular_region_queries"/>
+        <list key="xpath_queries"/>
+        <list key="namespaces"/>
+        <parameter key="ignore_CDATA" value="true"/>
+        <parameter key="assume_html" value="true"/>
+        <list key="index_queries"/>
+        <list key="jsonpath_queries">
+          <parameter key="content" value="$"/>
+        </list>
+        <process expanded="true">
+          <connect from_port="segment" to_port="document 1"/>
+          <portSpacing port="source_segment" spacing="0"/>
+          <portSpacing port="sink_document 1" spacing="0"/>
+          <portSpacing port="sink_document 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="text:json_to_data" compatibility="8.1.000" expanded="true" height="82" name="JSON To Data" width="90" x="380" y="34">
+        <parameter key="ignore_arrays" value="false"/>
+        <parameter key="limit_attributes" value="false"/>
+        <parameter key="skip_invalid_documents" value="false"/>
+        <parameter key="guess_data_types" value="false"/>
+        <parameter key="keep_missing_attributes" value="false"/>
+        <parameter key="missing_values_aliases" value=", null, NaN, missing"/>
+      </operator>
+      <operator activated="true" class="sample" compatibility="8.2.001" expanded="true" height="82" name="Sample" width="90" x="514" y="187">
+        <parameter key="sample" value="absolute"/>
+        <parameter key="balance_data" value="false"/>
+        <parameter key="sample_size" value="%{sample}"/>
+        <parameter key="sample_ratio" value="0.1"/>
+        <parameter key="sample_probability" value="0.1"/>
+        <list key="sample_size_per_class"/>
+        <list key="sample_ratio_per_class"/>
+        <list key="sample_probability_per_class"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+      </operator>
+      <operator activated="true" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Complete Data" width="90" x="715" y="238">
+        <parameter key="repository_entry" value="%{path}"/>
+      </operator>
+      <operator activated="true" class="store" compatibility="8.2.001" expanded="true" height="68" name="Store Sample Data" width="90" x="648" y="34">
+        <parameter key="repository_entry" value="%{path}_sample"/>
+      </operator>
+      <connect from_port="input 1" to_op="Read Document" to_port="file"/>
+      <connect from_op="Read Document" from_port="output" to_op="Cut Document" to_port="document"/>
+      <connect from_op="Cut Document" from_port="documents" to_op="JSON To Data" to_port="documents 1"/>
+      <connect from_op="JSON To Data" from_port="example set" to_op="Sample" to_port="example set input"/>
+      <connect from_op="Sample" from_port="example set output" to_op="Store Sample Data" to_port="input"/>
+      <connect from_op="Sample" from_port="original" to_op="Store Complete Data" to_port="input"/>
+      <connect from_op="Store Sample Data" from_port="through" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="source_input 2" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+    </process>
+  </operator>
+</process>
