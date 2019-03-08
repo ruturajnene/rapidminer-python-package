@@ -9,6 +9,7 @@ This module connects to the RapidMiner AutoModel and builds predictive models(Lo
 ## RapidMinerClient Module
 
 This module connects to the RapidMiner Server using the credentials provided by the user. Once connected it provides a set of utility functions to perform various tasks such as:
+
 	* Installing RapidMiner processes, services to the server
 	* Retrieve RapidMiner processes from the server
 	* Submit jobs to the RapidMiner server
