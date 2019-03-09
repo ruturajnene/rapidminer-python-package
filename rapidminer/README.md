@@ -1,10 +1,6 @@
 # rapidminer Module
 
-This module provides the AutoModelClient and RapidMinerClient submodules.
-
-## AutoModelClient Module (Beta Version)
-
-This module connects to the RapidMiner AutoModel and builds predictive models(Logistic Regression, Decision trees, Naive Bayes, Generalized Linear Models) based on the data passed to the autoModel function.
+This module provides the RapidMinerClient and AutoModelClient submodules.
 
 ## RapidMinerClient Module
 
@@ -19,3 +15,7 @@ This module connects to the RapidMiner Server using the credentials provided by 
 * Save data to a RapidMiner repository
 * Submit a RapidMiner process as a REST service
 * Retrieve the queues present on the RapidMiner server
+
+## AutoModelClient Module (Beta Version)
+
+This module connects to the RapidMiner AutoModel and builds predictive models(Logistic Regression, Decision trees, Naive Bayes, Generalized Linear Models) based on the data passed to the autoModel function.
