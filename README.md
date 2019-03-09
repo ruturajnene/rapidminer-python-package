@@ -2,7 +2,7 @@
 
 This is a fundamental package needed to work with RapidMiner Server and RapidMiner AutoModel with Python.
 
-## It provides a Module with following submodules:
+## It provides the rapidminer module with following submodules:
 
 These submodules allow seamless interaction with RapidMiner Server/AutoModel from within any Python Environment
 
