@@ -1,6 +1,7 @@
-# rapidminer-conda-package Package
+# rapidminer-python-package Package
 
-This is a fundamental conda package to work with RapidMiner Server and RapidMiner AutoModel from withing any Python environment.
+* This is a fundamental Python package for accessing RapidMiner APIs programmatically.
+* It can be installed using the package management tool conda.
 
 ## It provides the rapidminer module with following submodules:
 
